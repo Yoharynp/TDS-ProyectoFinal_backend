@@ -118,16 +118,15 @@ public class ContractService {
 
         if (usr.isEmpty()) throw new ApiNotFoundException("User not found with given id: "+ userId);
 
-        Contract example= new Contract();
+        Property example= new Property();
         example.setOwner(usr.get());
-        example.setStatus(StatusEnum.IN_CONTRACT);
 
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreNullValues()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
-        List<Contract> contracts = repository.findAll(Example.of(example, matcher));
+        List<Property> contracts = propertyRepository.findAll(Example.of(example, matcher));
         Double totalIncome = 0.00;
 
         if(contracts.isEmpty()) return new DashboardDTO(
@@ -136,8 +135,8 @@ public class ContractService {
                 0
         );
 
-        for (Contract contract : contracts){
-            totalIncome += contract.getProperty().getPrice();
+        for (Property contract : contracts){
+            totalIncome += contract.getPrice();
         }
 
         return new DashboardDTO(

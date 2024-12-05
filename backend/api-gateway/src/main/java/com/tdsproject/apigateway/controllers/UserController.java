@@ -44,13 +44,14 @@ public class UserController {
         return ResponseEntity.ok("Success!");
     }
 
-    @PostMapping
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(
             HttpServletRequest servletRequest
     ){
         String token = servletRequest.getHeader("Authorization").substring(7);
         var usrID = jwtService.extractUserId(token);
         userService.deleteUser(Integer.parseInt(usrID));
+
 
         return ResponseEntity.ok("Success!");
     }
